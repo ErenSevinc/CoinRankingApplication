@@ -82,6 +82,9 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
 
     implementation(libs.glide)
-    implementation("io.coil-kt:coil:2.5.0")
-    implementation("io.coil-kt:coil-svg:2.5.0")
+    implementation(libs.coil)
+    implementation(libs.coil.svg)
+
+    implementation(libs.androidx.paging.runtime.ktx)
+    implementation(libs.androidx.paging.runtime)
 }
