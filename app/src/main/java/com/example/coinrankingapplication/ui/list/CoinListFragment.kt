@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -54,7 +55,19 @@ class CoinListFragment : Fragment() {
     }
 
     private fun initLayout() {
-        adapter = CoinsAdapter()
+        adapter = CoinsAdapter(
+            onClick = {
+            val directions = CoinListFragmentDirections.navigateToDetail(it)
+            findNavController().navigate(directions)
+            },
+            onFavClick = {
+                if (!it.isFavourite) {
+                    viewModel.insertCoin(it)
+                } else {
+                    viewModel.deleteCoin(it)
+                }
+            }
+        )
         binding?.apply {
             val timePeriodList = listOf(H1, H3, H12, H24, D7, D30, M3, Y1, Y3, Y5)
             val timePeriodAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, timePeriodList)
@@ -62,9 +75,7 @@ class CoinListFragment : Fragment() {
             autoCompleteTextView.setAdapter(timePeriodAdapter)
             autoCompleteTextView.setOnItemClickListener { adapterView, view, i, l ->
                 selectedTimePeriod = timePeriodList[i]
-                lifecycleScope.launch {
-                    viewModel.getCoinList(timePeriodList[i])
-                }
+                setupObservers()
                 autoCompleteTextView.showDropdown(timePeriodAdapter)
             }
             val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -94,9 +105,12 @@ class CoinListFragment : Fragment() {
 
     private fun setupObservers() {
         lifecycleScope.launch {
-            viewModel.getCoinList(selectedTimePeriod).collectLatest { coins ->
-                adapter?.submitData(coins)
+            viewModel.getCoinList(selectedTimePeriod).collectLatest {
+                adapter?.submitData(it)
             }
+        }
+        viewModel.favCoin.observe(viewLifecycleOwner) {
+            adapter?.retry()
         }
     }
 

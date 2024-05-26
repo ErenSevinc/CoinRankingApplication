@@ -2,6 +2,7 @@ package com.example.coinrankingapplication.core
 
 object Constants {
     const val BASE_URL = "https://api.coinranking.com/v2/"
+    const val DB_NAME = "coins"
     const val H1 ="1h"
     const val H3 = "3h"
     const val H12 = "12h"

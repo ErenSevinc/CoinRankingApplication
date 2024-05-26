@@ -1,9 +1,14 @@
 package com.example.coinrankingapplication.core.di
 
+import android.app.Application
+import androidx.room.Room
 import com.example.coinrankingapplication.core.Constants.BASE_URL
 import com.example.coinrankingapplication.core.MyInterceptor
 import com.example.coinrankingapplication.data.dataSource.CoinDataSource
 import com.example.coinrankingapplication.data.dataSource.CoinDataSourceImpl
+import com.example.coinrankingapplication.data.local.CoinDao
+import com.example.coinrankingapplication.data.local.CoinDatabase
+import com.example.coinrankingapplication.data.local.LocalRepository
 import com.example.coinrankingapplication.data.network.ApiService
 import com.example.coinrankingapplication.data.repository.CoinRepositoryImpl
 import com.example.coinrankingapplication.domain.repository.CoinRepository
@@ -46,6 +51,29 @@ object AppModule {
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideMyDataBase(app: Application): CoinDatabase {
+        return Room.databaseBuilder(
+            app,
+            CoinDatabase::class.java,
+            "MyDataBase"
+        )
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideDao(coinDatabase: CoinDatabase) : CoinDao{
+        return coinDatabase.dao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideLocalRepository(dao: CoinDao): LocalRepository {
+        return LocalRepository(dao)
     }
 
     @Singleton

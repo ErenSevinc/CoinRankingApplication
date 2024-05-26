@@ -8,6 +8,8 @@ import android.widget.ImageView
 import coil.ImageLoader
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
+import com.example.coinrankingapplication.R
+import com.example.coinrankingapplication.domain.model.CoinModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -38,5 +40,21 @@ fun String.toDoublePrice(): String {
 fun AutoCompleteTextView.showDropdown(adapter: ArrayAdapter<String>?) {
     if(!TextUtils.isEmpty(this.text.toString())){
         adapter?.filter?.filter(null)
+    }
+}
+
+fun Boolean.isFavMatch(): Int {
+    return if (this) {
+        R.drawable.ic_star
+    } else {
+        R.drawable.ic_star_border
+    }
+}
+
+fun CoinModel.setColor(): Int{
+    return if (this.change.contains("-")) {
+        R.color.red
+    } else {
+        R.color.green
     }
 }

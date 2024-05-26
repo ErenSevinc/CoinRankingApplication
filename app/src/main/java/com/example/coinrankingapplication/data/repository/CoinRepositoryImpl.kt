@@ -6,8 +6,6 @@ import androidx.paging.PagingData
 import com.example.coinrankingapplication.core.BaseApiResponse
 import com.example.coinrankingapplication.data.dataSource.CoinDataSource
 import com.example.coinrankingapplication.data.model.detail.CoinDetailResponseModel
-import com.example.coinrankingapplication.data.model.list.CoinListResponseModel
-import com.example.coinrankingapplication.data.network.ApiService
 import com.example.coinrankingapplication.data.repository.paging.CoinPagingSource
 import com.example.coinrankingapplication.domain.model.CoinModel
 import com.example.coinrankingapplication.domain.repository.CoinRepository
