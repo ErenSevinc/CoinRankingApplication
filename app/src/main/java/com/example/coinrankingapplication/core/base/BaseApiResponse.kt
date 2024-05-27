@@ -1,4 +1,4 @@
-package com.example.coinrankingapplication.core
+package com.example.coinrankingapplication.core.base
 
 import com.google.gson.annotations.SerializedName
 

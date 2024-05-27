@@ -10,11 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.example.coinrankingapplication.R
-import com.example.coinrankingapplication.core.CoinDetailUIState
-import com.example.coinrankingapplication.core.Constants
-import com.example.coinrankingapplication.core.Constants.H24
-import com.example.coinrankingapplication.core.isFavMatch
-import com.example.coinrankingapplication.core.showDropdown
+import com.example.coinrankingapplication.core.uiState.CoinDetailUIState
+import com.example.coinrankingapplication.core.utils.Constants
+import com.example.coinrankingapplication.core.utils.Constants.H24
+import com.example.coinrankingapplication.core.utils.isFavMatch
+import com.example.coinrankingapplication.core.utils.showDropdown
 import com.example.coinrankingapplication.databinding.FragmentCoinDetailBinding
 import com.example.coinrankingapplication.domain.model.CoinModel
 import dagger.hilt.android.AndroidEntryPoint

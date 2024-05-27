@@ -1,12 +1,10 @@
 package com.example.coinrankingapplication.data.network
 
-import com.example.coinrankingapplication.core.BaseApiResponse
-import com.example.coinrankingapplication.core.Constants
+import com.example.coinrankingapplication.core.base.BaseApiResponse
+import com.example.coinrankingapplication.core.utils.Constants
 import com.example.coinrankingapplication.data.model.detail.CoinDetailResponseModel
 import com.example.coinrankingapplication.data.model.list.CoinListResponseModel
 import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.Headers
 import retrofit2.http.Path
 import retrofit2.http.Query
 

@@ -1,4 +1,4 @@
-package com.example.coinrankingapplication.core
+package com.example.coinrankingapplication.core.utils
 
 object Constants {
     const val BASE_URL = "https://api.coinranking.com/v2/"

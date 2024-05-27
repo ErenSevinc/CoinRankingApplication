@@ -2,43 +2,37 @@ package com.example.coinrankingapplication.ui.list
 
 import androidx.fragment.app.viewModels
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Toast
-import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.paging.CombinedLoadStates
-import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.coinrankingapplication.R
-import com.example.coinrankingapplication.core.Constants.D30
-import com.example.coinrankingapplication.core.Constants.D7
-import com.example.coinrankingapplication.core.Constants.H1
-import com.example.coinrankingapplication.core.Constants.H12
-import com.example.coinrankingapplication.core.Constants.H24
-import com.example.coinrankingapplication.core.Constants.H3
-import com.example.coinrankingapplication.core.Constants.M3
-import com.example.coinrankingapplication.core.Constants.Y1
-import com.example.coinrankingapplication.core.Constants.Y3
-import com.example.coinrankingapplication.core.Constants.Y5
-import com.example.coinrankingapplication.core.showDropdown
+import com.example.coinrankingapplication.core.utils.Constants.D30
+import com.example.coinrankingapplication.core.utils.Constants.D7
+import com.example.coinrankingapplication.core.utils.Constants.H1
+import com.example.coinrankingapplication.core.utils.Constants.H12
+import com.example.coinrankingapplication.core.utils.Constants.H24
+import com.example.coinrankingapplication.core.utils.Constants.H3
+import com.example.coinrankingapplication.core.utils.Constants.M3
+import com.example.coinrankingapplication.core.utils.Constants.Y1
+import com.example.coinrankingapplication.core.utils.Constants.Y3
+import com.example.coinrankingapplication.core.utils.Constants.Y5
+import com.example.coinrankingapplication.core.utils.showDropdown
 import com.example.coinrankingapplication.databinding.FragmentCoinListBinding
-import com.example.coinrankingapplication.ui.list.adapter.CoinsAdapter
-import com.example.coinrankingapplication.ui.list.adapter.LoaderAdapter
+import com.example.coinrankingapplication.ui.list.adapter.CoinModelAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CoinListFragment : Fragment() {
 
     private val viewModel: CoinListViewModel by viewModels()
     private var binding: FragmentCoinListBinding? = null
-    private var adapter: CoinsAdapter? = null
+    private var adapter: CoinModelAdapter? = null
     private var selectedTimePeriod = H24
 
 
@@ -55,7 +49,7 @@ class CoinListFragment : Fragment() {
     }
 
     private fun initLayout() {
-        adapter = CoinsAdapter(
+        adapter = CoinModelAdapter(
             onClick = {
             val directions = CoinListFragmentDirections.navigateToDetail(it)
             findNavController().navigate(directions)
@@ -75,52 +69,29 @@ class CoinListFragment : Fragment() {
             autoCompleteTextView.setAdapter(timePeriodAdapter)
             autoCompleteTextView.setOnItemClickListener { adapterView, view, i, l ->
                 selectedTimePeriod = timePeriodList[i]
-                setupObservers()
+                viewModel.refreshData(timePeriodList[i])
                 autoCompleteTextView.showDropdown(timePeriodAdapter)
             }
             val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             listCoin.layoutManager = layoutManager
+            listCoin.adapter = adapter
 
-            listCoin.adapter = adapter?.withLoadStateHeaderAndFooter(
-                header = LoaderAdapter {
-                    adapter?.retry()
-                },
-                footer = LoaderAdapter {
-                    adapter?.retry()
+            listCoin.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+
+                    if (!recyclerView.canScrollVertically(1)) {
+                        viewModel.fetchData()
+                    }
                 }
-            )
-            adapter?.addLoadStateListener {loadState ->
-                listCoin.isVisible = loadState.source.refresh is LoadState.NotLoading
-                loading.isVisible = loadState.source.refresh is LoadState.Loading
-                buttonRetry.isVisible = loadState.source.refresh is LoadState.Error
-
-                handleError(loadState)
-            }
-
-            buttonRetry.setOnClickListener {
-                adapter?.retry()
-            }
+            })
         }
     }
 
     private fun setupObservers() {
-        lifecycleScope.launch {
-            viewModel.getCoinList(selectedTimePeriod).collectLatest {
-                adapter?.submitData(it)
-            }
-        }
-        viewModel.favCoin.observe(viewLifecycleOwner) {
-            adapter?.retry()
-        }
-    }
-
-    private fun handleError(loadStates: CombinedLoadStates) {
-        val errorState = loadStates.source.append as? LoadState.Error
-            ?: loadStates.source.prepend as? LoadState.Error
-
-
-        errorState?.let {
-            Toast.makeText(requireContext(),errorState.error.localizedMessage,Toast.LENGTH_LONG).show()
+        viewModel.coins.observe(viewLifecycleOwner) {
+            adapter?.submitList(it)
+            Log.e("LIST", it.toString())
         }
     }
 

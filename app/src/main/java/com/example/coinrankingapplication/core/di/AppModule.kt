@@ -2,8 +2,7 @@ package com.example.coinrankingapplication.core.di
 
 import android.app.Application
 import androidx.room.Room
-import com.example.coinrankingapplication.core.Constants.BASE_URL
-import com.example.coinrankingapplication.core.MyInterceptor
+import com.example.coinrankingapplication.core.utils.Constants.BASE_URL
 import com.example.coinrankingapplication.data.dataSource.CoinDataSource
 import com.example.coinrankingapplication.data.dataSource.CoinDataSourceImpl
 import com.example.coinrankingapplication.data.local.CoinDao

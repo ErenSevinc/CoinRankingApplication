@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.coinrankingapplication.core.CoinDetailUIState
-import com.example.coinrankingapplication.core.Constants
-import com.example.coinrankingapplication.core.Resource
-import com.example.coinrankingapplication.core.getLowAndHigh
+import com.example.coinrankingapplication.core.uiState.CoinDetailUIState
+import com.example.coinrankingapplication.core.utils.Constants
+import com.example.coinrankingapplication.core.base.Resource
+import com.example.coinrankingapplication.core.utils.getLowAndHigh
 import com.example.coinrankingapplication.data.local.LocalRepository
 import com.example.coinrankingapplication.data.model.mapper.toCoinModel
 import com.example.coinrankingapplication.domain.model.CoinModel

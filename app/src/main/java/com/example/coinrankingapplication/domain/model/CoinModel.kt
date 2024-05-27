@@ -2,7 +2,7 @@ package com.example.coinrankingapplication.domain.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.coinrankingapplication.core.Constants
+import com.example.coinrankingapplication.core.utils.Constants
 
 @Entity(tableName = Constants.DB_NAME)
 data class CoinModel(

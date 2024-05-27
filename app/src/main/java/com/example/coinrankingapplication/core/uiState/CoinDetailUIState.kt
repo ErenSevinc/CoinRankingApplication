@@ -1,6 +1,5 @@
-package com.example.coinrankingapplication.core
+package com.example.coinrankingapplication.core.uiState
 
-import com.example.coinrankingapplication.data.model.detail.Coin
 import com.example.coinrankingapplication.domain.model.CoinModel
 
 

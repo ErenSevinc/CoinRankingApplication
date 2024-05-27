@@ -1,4 +1,4 @@
-package com.example.coinrankingapplication.core
+package com.example.coinrankingapplication.core.utils
 
 import android.annotation.SuppressLint
 import android.text.TextUtils
@@ -10,11 +10,6 @@ import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.example.coinrankingapplication.R
 import com.example.coinrankingapplication.domain.model.CoinModel
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 
 fun ImageView.loadUrl(url: String?) {
     val imageLoader = ImageLoader.Builder(context)

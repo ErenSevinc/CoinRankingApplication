@@ -1,7 +1,7 @@
 package com.example.coinrankingapplication.domain.useCase
 
-import com.example.coinrankingapplication.core.BaseApiResponse
-import com.example.coinrankingapplication.core.Resource
+import com.example.coinrankingapplication.core.base.BaseApiResponse
+import com.example.coinrankingapplication.core.base.Resource
 import com.example.coinrankingapplication.data.model.detail.CoinDetailResponseModel
 import com.example.coinrankingapplication.domain.repository.CoinRepository
 import kotlinx.coroutines.flow.Flow

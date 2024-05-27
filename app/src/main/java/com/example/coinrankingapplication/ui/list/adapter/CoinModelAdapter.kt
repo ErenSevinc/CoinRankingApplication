@@ -3,19 +3,33 @@ package com.example.coinrankingapplication.ui.list.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.coinrankingapplication.core.isFavMatch
-import com.example.coinrankingapplication.core.loadUrl
-import com.example.coinrankingapplication.core.setColor
-import com.example.coinrankingapplication.core.toDoublePrice
+import com.example.coinrankingapplication.core.utils.isFavMatch
+import com.example.coinrankingapplication.core.utils.loadUrl
+import com.example.coinrankingapplication.core.utils.setColor
+import com.example.coinrankingapplication.core.utils.toDoublePrice
 import com.example.coinrankingapplication.databinding.ItemCoinBinding
 import com.example.coinrankingapplication.domain.model.CoinModel
 import javax.inject.Inject
 
-class CoinsAdapter @Inject constructor(private val onClick: (id: String) -> Unit, private val onFavClick: (item: CoinModel) -> Unit) :
-    PagingDataAdapter<CoinModel, CoinsAdapter.ViewHolder>(diffCallback) {
+class CoinModelAdapter @Inject constructor(
+    private val onClick: (id: String) -> Unit,
+    private val onFavClick: (item: CoinModel) -> Unit
+) : ListAdapter<CoinModel, CoinModelAdapter.ViewHolder>(diffCallback) {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ItemCoinBinding.inflate(inflater, parent, false)
+        return ViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(currentList[position], onClick, onFavClick)
+    }
+
+    override fun getItemCount() = currentList.size
 
     class ViewHolder(
         private val binding: ItemCoinBinding
@@ -48,17 +62,5 @@ class CoinsAdapter @Inject constructor(private val onClick: (id: String) -> Unit
             override fun areContentsTheSame(oldItem: CoinModel, newItem: CoinModel) =
                 oldItem.uuid == newItem.uuid
         }
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        getItem(position)?.let {
-            holder.bind(it, onClick, onFavClick)
-        }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemCoinBinding.inflate(inflater, parent, false)
-        return ViewHolder(binding)
     }
 }

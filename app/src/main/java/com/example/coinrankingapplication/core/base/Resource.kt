@@ -1,4 +1,4 @@
-package com.example.coinrankingapplication.core
+package com.example.coinrankingapplication.core.base
 
 sealed class Resource<out T> {
     data object Loading: Resource<Nothing>()
