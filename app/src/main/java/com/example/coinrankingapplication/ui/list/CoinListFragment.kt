@@ -90,7 +90,7 @@ class CoinListFragment : Fragment() {
 
     private fun setupObservers() {
         viewModel.coins.observe(viewLifecycleOwner) {
-            adapter?.submitList(it)
+            adapter?.submitList(it.toMutableList())
             Log.e("LIST", it.toString())
         }
     }

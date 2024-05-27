@@ -33,7 +33,7 @@ class CoinDetailViewModel @Inject constructor(
     fun getCoinDetail(coinId: String, timePeriod: String = Constants.H24) {
         selectedPeriod = timePeriod
         viewModelScope.launch {
-            coinDetailUseCase.execute(coinId, selectedPeriod).collect {
+            coinDetailUseCase.execute(coinId, timePeriod).collect {
                 when (it) {
                     is Resource.Error -> {
                         _state.value = CoinDetailUIState.Error(it.errorMessage ?: "Error")
@@ -70,8 +70,9 @@ class CoinDetailViewModel @Inject constructor(
                 coinModel.isFavourite = true
                 localRepository.insert(coinModel)
             }
+            getFavCoins()
+            getCoinDetail(coinModel.uuid, selectedPeriod)
         }
-        getFavCoins()
     }
 
     fun deleteCoin(coinModel: CoinModel) {
@@ -82,8 +83,9 @@ class CoinDetailViewModel @Inject constructor(
                     localRepository.delete(it)
                 }
             }
+            getFavCoins()
+            getCoinDetail(coinModel.uuid, selectedPeriod)
         }
-        getFavCoins()
     }
 
     fun getFavCoins() {

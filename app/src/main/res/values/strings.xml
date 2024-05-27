@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">CoinRankingApplication</string>
+    <string name="title_ranking_list">Ranking List</string>
+    <string name="title_current_price">Current Price</string>
+    <string name="title_high_price">High: </string>
+    <string name="title_low_price">Low: </string>
+    <string name="title_fav_price">Fav: </string>
 </resources>

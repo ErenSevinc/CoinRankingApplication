@@ -21,7 +21,7 @@
             android:id="@+id/coin_symbol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="48dp"
+            android:layout_marginStart="36dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="24dp"
             android:textSize="36sp"
@@ -29,6 +29,27 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="BTC" />
+
+        <ImageView
+            android:id="@+id/coin_image"
+            android:layout_width="78dp"
+            android:layout_height="78dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="@id/layout_dropdown"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/coin_symbol"
+            tools:src="@color/black" />
+
+        <TextView
+            android:id="@+id/coin_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="@+id/coin_image"
+            app:layout_constraintStart_toStartOf="@+id/coin_image"
+            app:layout_constraintTop_toBottomOf="@id/coin_image"
+            tools:text="Bitcoin" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layout_dropdown"
@@ -52,12 +73,12 @@
 
         <ImageView
             android:id="@+id/fav_coin"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="24dp"
-            app:layout_constraintEnd_toEndOf="@+id/coin_symbol"
-            app:layout_constraintStart_toStartOf="@+id/coin_symbol"
-            app:layout_constraintTop_toBottomOf="@id/coin_symbol"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="24dp"
+            app:layout_constraintStart_toEndOf="@id/coin_symbol"
+            app:layout_constraintBottom_toBottomOf="@+id/coin_symbol"
+            app:layout_constraintTop_toTopOf="@id/coin_symbol"
             tools:src="@color/black" />
 
         <TextView
@@ -66,30 +87,32 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="36dp"
-            android:textSize="20sp"
+            android:textSize="24sp"
             android:textStyle="bold"
+            android:text="@string/title_current_price"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fav_coin"
-            tools:text="Current price" />
+            app:layout_constraintTop_toBottomOf="@id/coin_name"
+            />
 
         <TextView
             android:id="@+id/current_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:textSize="16sp"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/current_price_title"
-            tools:text="68000.00 $" />
+            tools:text="68000.7865 $" />
 
         <TextView
             android:id="@+id/current_benefit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:textSize="16sp"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/current_price"
             tools:text="% 0.01" />
@@ -101,21 +124,24 @@
             android:layout_marginEnd="24dp"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:text="@string/title_high_price"
             app:layout_constraintBottom_toBottomOf="@id/current_price_title"
             app:layout_constraintEnd_toStartOf="@id/high_price"
             app:layout_constraintTop_toTopOf="@id/current_price_title"
-            tools:text="High: " />
+            />
 
         <TextView
             android:id="@+id/high_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
-            android:textSize="16sp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/green"
             app:layout_constraintBottom_toBottomOf="@id/high_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/high_title"
-            tools:text="68000.00 $" />
+            tools:text="68000.0000 $" />
 
         <TextView
             android:id="@+id/low_title"
@@ -125,21 +151,24 @@
             android:layout_marginEnd="24dp"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:text="@string/title_low_price"
             app:layout_constraintEnd_toStartOf="@id/low_price"
             app:layout_constraintStart_toStartOf="@+id/high_title"
             app:layout_constraintTop_toBottomOf="@id/high_title"
-            tools:text="Low: " />
+            />
 
         <TextView
             android:id="@+id/low_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
-            android:textSize="16sp"
+            android:textColor="@color/red"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/low_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/low_title"
-            tools:text="68000.00 $" />
+            tools:text="68000.0000 $" />
 
         <TextView
             android:id="@+id/fav_title"
@@ -149,20 +178,22 @@
             android:layout_marginEnd="24dp"
             android:textSize="20sp"
             android:textStyle="bold"
+            android:text="@string/title_fav_price"
             app:layout_constraintStart_toStartOf="@id/low_title"
             app:layout_constraintTop_toBottomOf="@id/low_title"
-            tools:text="Fav: " />
+            />
 
         <TextView
             android:id="@+id/fav_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
-            android:textSize="16sp"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/fav_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/fav_title"
-            tools:text="68000.00 $" />
+            tools:text="68000.0000 $" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

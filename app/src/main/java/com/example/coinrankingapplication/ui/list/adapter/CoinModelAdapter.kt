@@ -46,7 +46,6 @@ class CoinModelAdapter @Inject constructor(
                 favImage.setBackgroundResource(item.isFavourite.isFavMatch())
 
                 favImage.setOnClickListener {
-                    favImage.setBackgroundResource(item.isFavourite.isFavMatch())
                     onFavClick.invoke(item)
                 }
                 root.setOnClickListener {

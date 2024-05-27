@@ -28,9 +28,6 @@ class CoinListViewModel @Inject constructor(
     private val _favCoins = MutableLiveData(emptyList<CoinModel>())
     val favCoin: LiveData<List<CoinModel>> = _favCoins
 
-    private val _loading = MutableLiveData<Boolean>()
-    val loading: LiveData<Boolean> = _loading
-
     private val _coins: MutableLiveData<List<CoinModel>> = MutableLiveData()
     val coins: LiveData<List<CoinModel>> = _coins
 
@@ -52,24 +49,32 @@ class CoinListViewModel @Inject constructor(
 
     fun fetchData() {
         if (totalPages == -1L || page < totalPages) {
-            _loading.value = true
             viewModelScope.launch {
                 coinListUseCase.execute(selectedTime, page).collect { response ->
-                    _loading.value = false
-                    response.data?.coins?.let {responseList ->
-                        coinList.addAll(responseList.toCoinModelList())
+                    response.data?.coins?.let { responseList ->
+                        responseList.toCoinModelList().forEach { coinModel ->
+                            if (_favCoins.value?.isEmpty() == true) {
+                                coinModel.isFavourite = false
+                            } else {
+                                _favCoins.value?.forEach { favCoinModel ->
+                                    if (favCoinModel.uuid == coinModel.uuid) {
+                                        coinModel.isFavourite = true
+                                    }
+                                }
+                            }
+                            coinList.add(coinModel)
+                        }
                         _coins.value = coinList.toMutableList()
                         totalPages = response.data.stats?.totalCoins ?: -1
                     }
                 }
+                page += 20
             }
-            page += 20
         }
     }
 
     fun insertCoin(coinModel: CoinModel) {
         viewModelScope.launch(Dispatchers.IO) {
-
             val filteredArticles = _favCoins.value?.firstOrNull {
                 it.uuid == coinModel.uuid
             }
@@ -77,8 +82,9 @@ class CoinListViewModel @Inject constructor(
                 coinModel.isFavourite = true
                 localRepository.insert(coinModel)
             }
+            getFavCoins()
+            refreshData(selectedTime)
         }
-        getFavCoins()
     }
 
     fun deleteCoin(coinModel: CoinModel) {
@@ -89,9 +95,9 @@ class CoinListViewModel @Inject constructor(
                     localRepository.delete(it)
                 }
             }
+            getFavCoins()
+            refreshData(selectedTime)
         }
-
-        getFavCoins()
     }
 
     private fun getFavCoins() {
@@ -100,23 +106,3 @@ class CoinListViewModel @Inject constructor(
         }
     }
 }
-
-//    suspend fun getCoinList(timePeriod: String): Flow<PagingData<CoinModel>> {
-//        selectedTime = timePeriod
-//        val response = coinListUseCase.execute(timePeriod).cachedIn(viewModelScope)
-//        response.map {
-//            it.map {model ->
-//                if (_favCoins.value?.isEmpty() == true) {
-//                    model.isFavourite = false
-//                } else {
-//                    _favCoins.value?.forEach {fav->
-//                        if (fav.uuid == model.uuid) {
-//                            model.isFavourite = true
-//                        }
-//                    }
-//                }!!
-//            }
-//        }
-//        return response
-//
-//    }
