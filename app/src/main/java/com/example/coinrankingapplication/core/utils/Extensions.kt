@@ -1,6 +1,7 @@
 package com.example.coinrankingapplication.core.utils
 
 import android.annotation.SuppressLint
+import android.icu.text.DecimalFormat
 import android.text.TextUtils
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -29,7 +30,9 @@ fun ImageView.loadUrl(url: String?) {
 @SuppressLint("DefaultLocale")
 fun String.toDoublePrice(): String {
     val price = this.toDouble()
-    return String.format("%.4f", price)
+    val formattedPenny = String.format("%.4f", price)
+    val formatter = DecimalFormat("###,###,##0.0000")
+    return formatter.format(formattedPenny.toDouble())
 }
 
 fun List<String?>.getLowAndHigh(): Pair<String, String> {
