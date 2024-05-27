@@ -16,7 +16,7 @@ class CoinDataSourceImpl  @Inject constructor(
         return api.getCoinList(timePeriod, offset)
     }
 
-    override suspend fun getCoinDetail(): BaseApiResponse<CoinDetailResponseModel> {
-        return api.getCoinDetail()
+    override suspend fun getCoinDetail(coinId: String, timePeriod: String): BaseApiResponse<CoinDetailResponseModel> {
+        return api.getCoinDetail(coinId, timePeriod)
     }
 }

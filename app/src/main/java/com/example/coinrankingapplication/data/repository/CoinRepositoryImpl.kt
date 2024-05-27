@@ -24,7 +24,7 @@ class CoinRepositoryImpl @Inject constructor(private val dataSource: CoinDataSou
         ).flow.flowOn(Dispatchers.IO)
     }
 
-    override suspend fun getCoinDetail(): BaseApiResponse<CoinDetailResponseModel> {
-        return dataSource.getCoinDetail()
+    override suspend fun getCoinDetail(coinId: String, timePeriod: String): BaseApiResponse<CoinDetailResponseModel> {
+        return dataSource.getCoinDetail(coinId, timePeriod)
     }
 }

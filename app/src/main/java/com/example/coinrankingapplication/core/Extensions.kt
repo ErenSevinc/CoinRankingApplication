@@ -37,8 +37,22 @@ fun String.toDoublePrice(): String {
     return String.format("%.4f", price)
 }
 
+fun List<String?>.getLowAndHigh(): Pair<String, String> {
+    val list = emptyList<Double>().toMutableList()
+    this.forEach {
+        if (!it.isNullOrEmpty()) {
+            list.add(it.toDouble())
+        }
+    }
+    list.sort()
+    return Pair(
+        first = list.first().toString().toDoublePrice(),
+        second = list.last().toString().toDoublePrice()
+    )
+}
+
 fun AutoCompleteTextView.showDropdown(adapter: ArrayAdapter<String>?) {
-    if(!TextUtils.isEmpty(this.text.toString())){
+    if (!TextUtils.isEmpty(this.text.toString())) {
         adapter?.filter?.filter(null)
     }
 }
@@ -51,7 +65,7 @@ fun Boolean.isFavMatch(): Int {
     }
 }
 
-fun CoinModel.setColor(): Int{
+fun CoinModel.setColor(): Int {
     return if (this.change.contains("-")) {
         R.color.red
     } else {

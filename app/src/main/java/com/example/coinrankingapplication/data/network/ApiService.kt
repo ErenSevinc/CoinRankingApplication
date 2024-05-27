@@ -7,6 +7,7 @@ import com.example.coinrankingapplication.data.model.list.CoinListResponseModel
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Headers
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
@@ -18,6 +19,9 @@ interface ApiService {
         @Query("limit") limit: Int? = 20
     ): BaseApiResponse<CoinListResponseModel>
 
-    @GET("coin/Qwsogvtv82FCd")
-    suspend fun getCoinDetail(): BaseApiResponse<CoinDetailResponseModel>
+    @GET("coin/{coinId}")
+    suspend fun getCoinDetail(
+        @Path("coinId") coinId: String,
+        @Query("timePeriod") timePeriod: String? = Constants.H24,
+    ): BaseApiResponse<CoinDetailResponseModel>
 }

@@ -14,5 +14,8 @@ data class CoinModel(
     val iconUrl: String,
     val price: String,
     val change: String,
-    var isFavourite: Boolean = false
+    var highPrice: String? = "",
+    var lowPrice: String? = "",
+    var isFavourite: Boolean = false,
+    var favPrice: String? = ""
 )

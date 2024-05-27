@@ -10,5 +10,5 @@ import kotlinx.coroutines.flow.Flow
 interface CoinRepository {
 
     suspend fun getCoinList(timePeriod: String): Flow<PagingData<CoinModel>>
-    suspend fun getCoinDetail(): BaseApiResponse<CoinDetailResponseModel>
+    suspend fun getCoinDetail(coinId: String, timePeriod: String): BaseApiResponse<CoinDetailResponseModel>
 }
