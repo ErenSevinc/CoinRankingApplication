@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.example.coinrankingapplication.R
@@ -29,12 +30,14 @@ import com.example.coinrankingapplication.core.utils.showDropdown
 import com.example.coinrankingapplication.core.utils.toDoublePrice
 import com.example.coinrankingapplication.databinding.FragmentCoinDetailBinding
 import com.example.coinrankingapplication.domain.model.CoinModel
+import com.example.coinrankingapplication.ui.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CoinDetailFragment : Fragment() {
 
     private val viewModel: CoinDetailViewModel by viewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
     private var binding: FragmentCoinDetailBinding? = null
     private val args: CoinDetailFragmentArgs by navArgs()
     private var selectedTimePeriod = H24
@@ -81,6 +84,9 @@ class CoinDetailFragment : Fragment() {
 
     private fun initDetailScreen(item: CoinModel) {
         binding?.apply {
+            mainViewModel.setToolbarVisibility(true)
+            mainViewModel.setToolbarTitle(item.symbol)
+
             val timePeriodList = listOf(H1, H3, H12, H24, D7, D30, M3, Y1, Y3, Y5)
             val timePeriodAdapter = ArrayAdapter(requireContext(), R.layout.item_dropdown, timePeriodList)
             autoCompleteTextView.setText(selectedTimePeriod, false)
@@ -91,7 +97,6 @@ class CoinDetailFragment : Fragment() {
                 autoCompleteTextView.showDropdown(timePeriodAdapter)
             }
 
-            coinSymbol.text = item.symbol
             coinName.text = item.name
             currentPrice.text = "$ ${item.price.toDoublePrice()}"
             currentBenefit.setTextColor(ContextCompat.getColor(requireContext(), item.setColor()))

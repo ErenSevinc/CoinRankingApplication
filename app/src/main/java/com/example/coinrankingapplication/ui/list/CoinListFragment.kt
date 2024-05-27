@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +25,7 @@ import com.example.coinrankingapplication.core.utils.Constants.Y3
 import com.example.coinrankingapplication.core.utils.Constants.Y5
 import com.example.coinrankingapplication.core.utils.showDropdown
 import com.example.coinrankingapplication.databinding.FragmentCoinListBinding
+import com.example.coinrankingapplication.ui.MainViewModel
 import com.example.coinrankingapplication.ui.list.adapter.CoinModelAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,6 +33,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class CoinListFragment : Fragment() {
 
     private val viewModel: CoinListViewModel by viewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
     private var binding: FragmentCoinListBinding? = null
     private var adapter: CoinModelAdapter? = null
     private var selectedTimePeriod = H24
@@ -42,6 +45,7 @@ class CoinListFragment : Fragment() {
     ): View {
         binding = FragmentCoinListBinding.inflate(layoutInflater, container, false)
 
+        mainViewModel.setToolbarVisibility(false)
         initLayout()
         setupObservers()
 
